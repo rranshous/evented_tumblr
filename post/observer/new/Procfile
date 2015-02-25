@@ -1,1 +1,1 @@
-poller: bundle exec ruby poll_tumblr.rb $EVENTSTORE_URL
+poller_tumblr: bundle exec ruby worker.rb $EVENTSTORE_URL
