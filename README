@@ -1,0 +1,52 @@
+features:
+blog
+ note blogs which we learn about
+ observe noted blogs
+ progmatic retrieval of details of blog, it's posts, it's images
+ human traversal of blog, post, image details
+post
+ observe new posts
+ observe existing posts
+image
+ find images in posts
+ determine details of an image (type, size)
+ identify new images in the stream
+ download and stash new images
+ store / retrieve image data
+ retrieve list of images
+ retrieve details of image (type, size)
+ retrieve context of image (post, blog)
+
+pieces:
+blog/
+ finder
+ observer
+ identifier
+ accessor
+ viewer
+post/
+ observer/
+  new
+  historical
+ identifier
+image/
+ finder
+ detailer
+ identifier
+ downloader
+ stash
+ accessor
+
+events:
+tumblr/
+ blog-noted (in list to find, not yet seen)
+ blog-observed (seen in the wild)
+ post-observed
+ image-observed
+ new-blog-observed (observed blog is believed to be new)
+ new-post-observed
+ new-image-observed
+ image-stored (image has been stored)
+ image-retrieved (image retrieved from store)
+ image-detailed (image has been detailed (type, size))
+
