@@ -1,1 +1,1 @@
-tumblr_historical_observer: bundle exec ruby tumblr_historical_observer.rb
+tumblr_historical_observer: bundle exec ruby worker.rb
