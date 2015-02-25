@@ -1,5 +1,5 @@
 require 'dimensions'
-require_relative 'streamworker'
+require 'streamworker'
 require_relative 'image_stasher'
 
 # eventstore client will be auto set up based on
