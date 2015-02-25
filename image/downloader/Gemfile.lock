@@ -70,7 +70,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  eventstore (~> 0.1)
   httmultiparty
   pry
   sinatra
