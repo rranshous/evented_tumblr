@@ -1,0 +1,1 @@
+poller: bundle exec ruby poll_tumblr.rb $EVENTSTORE_URL
