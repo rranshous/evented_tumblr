@@ -1,5 +1,4 @@
 require 'sinatra'
-require 'thread_safe'
 require 'eventstore'
 require 'base64'
 
@@ -8,17 +7,18 @@ Thread.abort_on_exception = true
 # we want to be able to answer the question
 #  what blog + post did this image come from?
 
-image_to_post = ThreadSafe::Cache.new
-post_to_blog = ThreadSafe::Cache.new
-blog_to_posts = ThreadSafe::Cache.new
-post_to_images = ThreadSafe::Cache.new
+image_to_post = {}
+post_to_blog = {}
+blog_to_posts = {}
+post_to_images = {}
+blogs = []
 
 IMAGE_STASHER_URL = ENV['IMAGE_STASHER_URL']
 
 CONNSTRING = ENV['EVENTSTORE_URL'] || 'http://0.0.0.0:2113'
 eventstore = EventStore::Client.new(CONNSTRING)
 
-Thread.new do
+Thread.new(image_to_post, post_to_images) do |image_to_post, pots_to_images|
   EventStore::Util.poll(eventstore, 'tumblr').each do |event|
     next if event[:type] != 'new-image-observed'
     next if event[:body]['post'].nil?
@@ -27,7 +27,7 @@ Thread.new do
   end
 end
 
-Thread.new do
+Thread.new(post_to_blog, blog_to_posts) do |post_to_blog, blog_to_posts|
   EventStore::Util.poll(eventstore, 'tumblr').each do |event|
     next if event[:type] != 'new-post-observed'
     post_to_blog[event[:body]['href']] = event[:body]['blog']['href']
@@ -35,11 +35,17 @@ Thread.new do
   end
 end
 
+Thread.new(blogs) do |blogs|
+  EventStore::Util.poll(eventstore, 'tumblr').each do |event|
+    next if event[:type] != 'new-blog-observed'
+    blogs << event[:body]['href']
+  end
+end
+
 get '/' do
+  content_type :json
   etag image_to_post.keys.length
-  image_to_post.keys.map do |image_href|
-    "http://#{request.host}/#{Base64.urlsafe_encode64(image_href)}"
-  end.to_json
+  blogs.to_json
 end
 
 get '/:image_href_encoded' do |image_href_encoded|
