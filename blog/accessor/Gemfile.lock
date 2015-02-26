@@ -56,3 +56,4 @@ DEPENDENCIES
   eventstore (~> 0.1)
   pry
   sinatra
+  thread_safe
