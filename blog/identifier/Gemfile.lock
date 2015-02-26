@@ -56,6 +56,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  eventstore (~> 0.1)
   pry
-  streamworker (~> 0.0.1)!
+  streamworker (~> 0.0)!
