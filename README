@@ -40,6 +40,7 @@ image/
 events:
 tumblr/
  blog-noted (in list to find, not yet seen)
+ blog-not-found (noted but could not get it's data)
  blog-observed (seen in the wild)
  post-observed
  image-observed
