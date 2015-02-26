@@ -1,6 +1,7 @@
 require 'streamworker'
 
 name 'new-blog-notifier'
+
 handle 'tumblr' => 'observed-blog' do |state, event, redis|
   blog_href = event[:body]['href']
   log "handling: #{blog_href}"

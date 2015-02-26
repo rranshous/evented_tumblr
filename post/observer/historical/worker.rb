@@ -46,8 +46,8 @@ handle 'tumblr' => 'new-blog-observed' do |state, event, redis|
           'blog' => { 'href' => feed.url },
           'timestamp' => entry.published.iso8601
         }
-        log "emit observed_post: #{entry.url}"
-        emit 'tumblr', 'observed-post', post_data
+        log "emit post-observed: #{entry.url}"
+        emit 'tumblr', 'post-observed', post_data
         redis.sadd 'entry_seen', entry.url
         post_count += 1
       end
