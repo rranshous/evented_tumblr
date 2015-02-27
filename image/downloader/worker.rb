@@ -25,6 +25,7 @@ handle 'new-images' do |state, event|
     log "posting to stash: #{image_data.length}"
     rsp = ImageStasher.set_data href, image_data
     log "successful post #{rsp}"
-    emit 'images', 'downloaded', { href: href, bytesize: image_data.length }
+    log "emitting image-downloaded: #{href}"
+    emit 'tumblr', 'image-downloaded', { href: href, bytesize: image_data.length }
   end
 end

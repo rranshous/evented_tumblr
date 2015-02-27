@@ -31,19 +31,20 @@ post/
  identifier
 image/
  finder
- detailer
  identifier
- downloader
  stash
+ downloader
+ detailer
  accessor
 
 events:
 tumblr/
  blog-noted (in list to find, not yet seen)
+ image-noted
  blog-not-found (noted but could not get it's data)
  blog-observed (seen in the wild)
  post-observed
- image-observed
+ #image-observed
  new-blog-observed (observed blog is believed to be new)
  new-post-observed
  new-image-observed

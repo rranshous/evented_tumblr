@@ -2,8 +2,6 @@ require 'sinatra'
 require 'base64'
 require 'json'
 
-$stdout.sync = true
-
 WRITE_DIR = ENV['WRITE_DIR'] || './data'
 
 get '/' do

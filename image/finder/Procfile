@@ -1,1 +1,1 @@
-worker: bundle exec ruby worker.rb $EVENTSTORE_URL
+worker: bundle exec ruby worker.rb
