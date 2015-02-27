@@ -1,0 +1,7 @@
+#!/bin/bash
+
+PROJECT=$(basename `pwd`)
+NAME=$1
+#docker run --name $NAME -d $PROJECT /bin/bash -c "/start $NAME"
+ID=$(docker run -d $PROJECT /bin/bash -c "/start $NAME")
+docker logs -f $ID

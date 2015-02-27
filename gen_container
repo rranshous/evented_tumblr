@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "building entire project"
+tar -c . | ../buildstep/buildstep evented_tumblr
