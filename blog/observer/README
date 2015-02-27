@@ -1,0 +1,7 @@
+feeds off blog-noted
+pulls the blog's data
+emits blog-observed
+
+ENV:
+EVENTSTORE_URL
+

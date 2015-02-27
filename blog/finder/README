@@ -1,0 +1,7 @@
+emit's blog-noted for each blog url
+
+
+ENV:
+URLS_FILE_URL
+SLEEP_TIME
+EVENTSTORE_URL
