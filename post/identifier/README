@@ -1,0 +1,6 @@
+feeds off post-observed
+emit new-post-observed for unseen post href
+
+ENV
+REDIS_URL
+EVENTSTORE_URL

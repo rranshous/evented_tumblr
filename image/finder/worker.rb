@@ -2,7 +2,7 @@ require 'streamworker'
 require 'httparty'
 
 name 'image-finder'
-handle 'tumblr' => 'new-post-observed' do |state, event, redis|
+handle 'tumblr' => 'new-post-observed' do |state, event|
   post_href = event[:body]["href"]
   log "handling: #{post_href}"
   response = HTTParty.get("#{post_href}/xml",

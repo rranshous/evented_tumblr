@@ -1,0 +1,9 @@
+webapp
+
+/ => all stored image keys
+/:image_name_encoded => Image data
+head /:image_name_encoded => 200 or 404 if not found
+post /:image_name_encoded => set data for an image
+
+ENV:
+WRITE_DIR

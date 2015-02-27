@@ -1,0 +1,8 @@
+feeds off image-downloaded
+downloads image from image stash
+determine's images details (dimensions, type)
+emits image-detailed
+
+ENV:
+EVENTSTORE_URL
+IMAGE_STASHER_URL

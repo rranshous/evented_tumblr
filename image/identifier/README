@@ -1,0 +1,7 @@
+feeds off image-noted
+emit new-image-observed for each unseen image href
+
+ENV:
+REDIS_URL
+EVENTSTORE_URL
+HTTP_POOL_SIZE

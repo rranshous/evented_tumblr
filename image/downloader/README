@@ -1,0 +1,8 @@
+feeds off new-image-observed
+checks if image has already been stashed
+if it has not it is downloaded + stashed
+emits image-downloaded
+
+ENV:
+IMAGE_STASHER_URL
+EVENTSTORE_URL

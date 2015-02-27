@@ -1,0 +1,7 @@
+feeds off new-post-observed
+downloads post details
+if post is of image type iterate over images
+emit image-noted events
+
+ENV:
+EVENTSTORE_URL

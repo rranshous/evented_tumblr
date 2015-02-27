@@ -1,6 +1,6 @@
+feeds off observed-blog events
+emits new-blog-observed for each uniq blog it encounters
+
 ENV:
 EVENTSTORE_URL
 REDIS_URL
-
-feeds off observed-blog events
-emits new-blog-observed for each uniq blog it encounters

@@ -1,0 +1,7 @@
+feeds off new-blog-observed
+scrapes blogs first 1000 pages
+emits post-observed for each post
+
+ENV:
+REDIS_URL
+EVENTSTORE_URL

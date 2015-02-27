@@ -2,7 +2,7 @@ require 'streamworker'
 require_relative 'image_stasher'
 
 name 'image-downloader'
-handle 'new-images' do |state, event|
+handle 'tumblr' => 'new-image-observed' do |state, event|
 
   href = event[:body]["href"]
   log "href: #{href}"

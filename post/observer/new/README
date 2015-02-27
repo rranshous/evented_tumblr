@@ -1,0 +1,6 @@
+polls blogs for posts on first page
+
+ENV:
+SLEEP_TIME
+EVENTSTORE_URL
+BLOG_ACCESSOR_URL

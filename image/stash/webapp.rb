@@ -11,13 +11,6 @@ get '/' do
     .to_json
 end
 
-get '/links' do
-  content_type :html
-  Dir.glob(File.join(WRITE_DIR,'*'))
-    .map{|p| File.basename(p) }
-    .map{|n| "<a href='/#{n}'>#{n}</a><br/>" }
-end
-
 head '/:image_name_encoded' do |image_name_encoded|
   file_path = File.join WRITE_DIR, image_name_encoded
   halt 404 unless File.exists? file_path
