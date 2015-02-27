@@ -1,0 +1,8 @@
+Web application
+
+ENV:
+EVENTSTORE_URL
+IMAGE_STASHER_URL
+
+/ => returns list of all blog hrefs
+/:image_href_encoded => returns details of image including post and blog
