@@ -13,7 +13,7 @@ post_observer_historical: sh -c 'post/observer/historical && bundle exec ruby wo
 
 # webapp
 image_stash: sh -c 'image/stash && bundle exec ruby webapp.rb'
-blog_accessor: sh -c 'blog/accessor && bundle exec ruby webapp.rb'
+blog_accessor: sh -c "cd blog && cd accessor && bundle exec ruby webapp.rb && echo 'cleanfinish'"
 
 # test
-test: sh -c 'bundle exec ruby test.rb'
+test: bundle exec ruby test.rb
