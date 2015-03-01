@@ -10,6 +10,13 @@ require 'json'
 # to tell the workers from the webapps for now
 
 build_target = ARGV.shift
+if build_target.nil? || build_target.chomp == ""
+  build_target = false
+end
+image_prefix = ARGV.shift
+
+puts "build target: #{build_target}"
+puts "image_prefix: #{image_prefix}"
 
 # go through each of the proc files
 Dir['**/Procfile'].each do |proc_path|
@@ -39,12 +46,12 @@ Dir['**/Procfile'].each do |proc_path|
     # usin the applications name and the command name
     # as the image name
     image_name = "#{app_name}-#{command_name}"
-    cmd = "cd #{build_dir} && docker build -t #{image_name} ."
+    cmd = "cd #{build_dir} && docker build -t #{image_prefix}#{image_name} ."
     puts "building using: #{cmd}"
     unless system(cmd)
       puts "FAIL, retrying indef"
       redo
-      raise "COMMAND FAIL: #{cmd}"
+      #raise "COMMAND FAIL: #{cmd}"
     end
   end
   # clean up the tmp dir
