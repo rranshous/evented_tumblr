@@ -45,13 +45,21 @@ Dir['**/Procfile'].each do |proc_path|
     # exec a build in the directory, saving image
     # usin the applications name and the command name
     # as the image name
-    image_name = "#{app_name}-#{command_name}"
-    cmd = "cd #{build_dir} && docker build -t #{image_prefix}#{image_name} ."
+    image_name = "#{image_prefix}#{app_name}-#{command_name}"
+    cmd = "cd #{build_dir} && docker build -t #{image_name} ."
     puts "building using: #{cmd}"
     unless system(cmd)
       puts "FAIL, retrying indef"
       redo
       #raise "COMMAND FAIL: #{cmd}"
+    end
+    if ARGV.include? 'push'
+      cmd = "docker push #{image_name}"
+      puts "pushing using: #{cmd}"
+      unless system(cmd)
+        puts "FAIL, retrying indef"
+        redo
+      end
     end
   end
   # clean up the tmp dir

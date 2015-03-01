@@ -1,1 +1,1 @@
-image_downloader: bundle exec ruby worker.rb
+worker: bundle exec ruby worker.rb

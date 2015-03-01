@@ -1,0 +1,48 @@
+EventStore:
+  image: adbrowne/eventstore
+
+ImageDetailer:
+  image: slag.local:4567/image_detailer-worker
+  links: &1
+  - ImageStash
+  - BlogAccessor
+  - EventStore
+ImageIdentifier:
+  image: slag.local:4567/image_identifier-worker
+  links: *1
+ImageFinder:
+  image: slag.local:4567/image_finder-worker
+  links: *1
+ImageDownloader:
+  image: slag.local:4567/image_downloader-worker
+  links: *1
+BlogIdentifier:
+  image: slag.local:4567/blog_identifier-worker
+  links: *1
+BlogObserver:
+  image: slag.local:4567/blog_observer-worker
+  links: *1
+BlogFinder:
+  image: slag.local:4567/blog_finder-worker
+  links: *1
+PostIdentifier:
+  image: slag.local:4567/post_identifier-worker
+  links: *1
+PostObserverNew:
+  image: slag.local:4567/post_observer_new-worker
+  links: *1
+PostObserverHistorical:
+  image: slag.local:4567/post_observer_historical-worker
+  links: *1
+ImageStash:
+  image: slag.local:4567/image_stash-web
+  links: &2
+  - EventStore
+  ports:
+  - 5001:5000
+BlogAccessor:
+  image: slag.local:4567/blog_accessor-web
+  links: *2
+  ports:
+  - 5002:5000
+
