@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+require 'yaml'
+require 'json'
+
+# GOAL
+# build a docker container for each foreman entry
+# in the directory tree
+# we'll give each container a port, so that we don't have
+# to tell the workers from the webapps for now
+
+build_target = ARGV.shift
+
+# go through each of the proc files
+Dir['**/Procfile'].each do |proc_path|
+  app_dir = File.dirname proc_path
+  app_name = app_dir.split('/').join('_')
+  next if build_target && build_target != app_name
+  puts "application: #{app_name} :: #{app_dir}"
+  # copy the directory to tmp, so that we can add things w/o changing
+  # the source direcotry
+  build_id = rand(10000)
+  build_dir = "/tmp/#{build_id}"
+  puts "build dir: #{build_dir}"
+  FileUtils.cp_r app_dir, build_dir
+  # go through each entry in the procfile
+  YAML.load_file(proc_path).each do |(command_name, command)|
+    # create a container for each entry
+    puts "Procfile command: #{command_name}"
+    dockerfile_path = File.join(build_dir, 'Dockerfile')
+    File.open(dockerfile_path, 'w') do |fh|
+      fh.write """
+        FROM tutum/buildstep
+        ENV PORT 5000
+        CMD #{command.split(' ').to_json}
+      """
+    end
+    # exec a build in the directory, saving image
+    # usin the applications name and the command name
+    # as the image name
+    image_name = "#{app_name}-#{command_name}"
+    cmd = "cd #{build_dir} && docker build -t #{image_name} ."
+    puts "building using: #{cmd}"
+    unless system(cmd)
+      puts "FAIL, retrying indef"
+      redo
+      raise "COMMAND FAIL: #{cmd}"
+    end
+  end
+  # clean up the tmp dir
+  #FileUtils.rm_rf build_dir
+end

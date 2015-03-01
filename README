@@ -1,14 +1,8 @@
 
 running
 each app should be runnable from it's directory
-webapps should be named webapp.rb and be runnable by
- `bundle exec webapp.rb`
-worker apps should be named worker.rb and be runnable by
- `bundle exec worker.rb`
-each app should provide a dockerfile which will create a container
- image for the app
+each app should provide a Procfile
 each webapp should bind to PORT
-each webapp container should expose 5000
 app directories should contain a README which lists
  the environmental variables for the app
 
