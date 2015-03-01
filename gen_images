@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+script_types = %w(worker webapp)
+
+Dir.mkdir '/tmp/bundler_cache' rescue 1
+
+threads = []
+
+script_types.each do |type|
+  file_name = "#{type}.rb"
+  files = Dir["**/#{file_name}"]
+  total_files = files.length
+  files.each_with_index do |path, index|
+    retried = false
+    puts "#{index+1} of #{total_files}"
+    app_dir_path = File.dirname(path)
+    app_name = app_dir_path.split('/').join('_')
+    cmd = "cd #{app_dir_path} && tar -c . | /home/robby/coding/buildstep/buildstep #{app_name}"
+    puts "Creating :#{app_name}"
+    unless system(cmd)
+      unless retried
+        retried = true
+        retry
+      end
+      raise "FAIL: #{cmd}"
+      STDOUT.flush
+      exit
+    end
+    STDOUT.flush
+    #threads << Thread.new(cmd) do |to_run|
+    #end
+  end
+end
+threads.each { |t| t.join }
+puts "DONE"
