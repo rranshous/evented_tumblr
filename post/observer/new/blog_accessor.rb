@@ -9,6 +9,13 @@ class BlogAccessor
 
   private
   def self.host
-    ENV['BLOG_ACCESSOR_URL']
+    # most strait forward way to set
+    url = ENV['BLOG_ACCESSOR_URL']
+    # check for docker link vars
+    if ENV['BLOGACCESSOR_PORT']
+      host_port = ENV['BLOGACCESSOR_PORT'].split('//').last
+      url = "http://#{host_port}"
+    end
+    url
   end
 end
