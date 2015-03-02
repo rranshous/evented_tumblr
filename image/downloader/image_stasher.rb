@@ -37,7 +37,14 @@ class ImageStasher
 
   private
   def self.host
-    ENV['IMAGE_STASHER_URL']
+    # most strait forward way to set
+    url = ENV['IMAGE_STASH_URL']
+    # check for docker link vars
+    if ENV['IMAGESTASH_PORT']
+      host_port = ENV['IMAGESTASH_PORT'].split('//').last
+      url = "http://#{host_port}"
+    end
+    url
   end
   def self.encode image_href
     Base64.urlsafe_encode64(image_href)
