@@ -44,7 +44,7 @@ end
 
 get '/' do
   content_type :json
-  etag blogs.keys.length
+  etag blogs.length
   blogs.to_json
 end
 
