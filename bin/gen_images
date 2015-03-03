@@ -1,5 +1,5 @@
-
 #!/usr/bin/env ruby
+#
 require 'fileutils'
 require 'yaml'
 require 'json'
@@ -49,9 +49,11 @@ Dir['**/Procfile'].each do |proc_path|
     image_name = "#{image_prefix}#{app_name}-#{command_name}"
     # if the image already exists, update it in place
     if `docker images | cut -d' ' -f1`.split("\n").include?(image_name)
+      puts "updating existing image place"
       # run a container from the existing image, upate app in place, re-bundle
       cmd = "cd #{build_dir} && tar -c . | docker run -i -a stdin #{image_name} /bin/bash -c 'rm -rf /app && mkdir -p /app && tar -xC /app && bundle install'"
       id = `#{cmd}`.chomp
+      print "Waiting: "
       unless system("docker wait #{id}")
         raise "failed to wait for container: #{id}"
       end
