@@ -32,8 +32,8 @@ Dir['**/Procfile'].each do |proc_path|
   puts "build dir: #{build_dir}"
   FileUtils.cp_r app_dir, build_dir
   # go through each entry in the procfile
+  # create a container for each entry
   YAML.load_file(proc_path).each do |(command_name, command)|
-    # create a container for each entry
     puts "Procfile command: #{command_name}"
     dockerfile_path = File.join(build_dir, 'Dockerfile')
     File.open(dockerfile_path, 'w') do |fh|
@@ -50,26 +50,24 @@ Dir['**/Procfile'].each do |proc_path|
     # if the image already exists, update it in place
     if `docker images | cut -d' ' -f1`.split("\n").include?(image_name)
       puts "updating existing image place"
-      # run a container from the existing image, upate app in place, re-bundle
-      cmd = "cd #{build_dir} && tar -c . | docker run -i -a stdin #{image_name} /bin/bash -c 'rm -rf /app && mkdir -p /app && tar -xC /app && bundle install'"
-      id = `#{cmd}`.chomp
-      print "Waiting: "
-      unless system("docker wait #{id}")
-        raise "failed to wait for container: #{id}"
+      # base a new image on an existing one
+      File.open(dockerfile_path, 'w') do |fh|
+        fh.write """
+          FROM #{image_name}
+          ENV PORT 5000
+          ADD . /app
+          RUN ln -s /start /app/do
+          RUN /app/do bundle install
+          CMD #{command.split(' ').to_json}
+        """
       end
-      # replace the existing image w/ a commit of new container
-      cmd = "docker commit #{id} #{image_name}"
-      unless system(cmd)
-        raise "failed to commit: #{id}"
-      end
-    else
-      cmd = "cd #{build_dir} && docker build -t #{image_name} ."
-      puts "building using: #{cmd}"
-      unless system(cmd)
-        puts "FAIL, retrying indef"
-        redo
-        #raise "COMMAND FAIL: #{cmd}"
-      end
+    end
+    cmd = "cd #{build_dir} && docker build -t #{image_name} ."
+    puts "building using: #{cmd}"
+    unless system(cmd)
+      puts "FAIL, retrying indef"
+      redo
+      #raise "COMMAND FAIL: #{cmd}"
     end
     if ARGV.include? 'push'
       cmd = "docker push #{image_name}"
