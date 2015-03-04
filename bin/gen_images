@@ -64,7 +64,7 @@ Dir['**/Procfile'].each do |proc_path|
           FROM #{source_image_name}
           ENV PORT 5000
           ADD . /app
-          RUN ln -s /start /app/do
+          RUN rm -f /app/do && ln -s /start /app/do
           RUN /app/do bundle install
           CMD #{command.split(' ').to_json}
         """
