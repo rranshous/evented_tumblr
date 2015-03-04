@@ -47,13 +47,21 @@ Dir['**/Procfile'].each do |proc_path|
     # usin the applications name and the command name
     # as the image name
     image_name = "#{image_prefix}#{app_name}-#{command_name}"
+    image_name_without_prefix = "#{app_name}-#{command_name}"
     # if the image already exists, update it in place
     if `docker images | cut -d' ' -f1`.split("\n").include?(image_name)
+      image_exists = true
+      source_image_name = image_name
+    elsif `docker images | cut -d' ' -f1`.split("\n").include?(image_name_without_prefix)
+      image_exists = true
+      source_image_name = image_name_without_prefix
+    end
+    if image_exists
       puts "updating existing image place"
       # base a new image on an existing one
       File.open(dockerfile_path, 'w') do |fh|
         fh.write """
-          FROM #{image_name}
+          FROM #{source_image_name}
           ENV PORT 5000
           ADD . /app
           RUN ln -s /start /app/do
