@@ -7,6 +7,8 @@ require_relative 'image_stasher'
 
 # ImageStasher API URL is set via IMAGE_STASHER_URL
 
+name 'image-detailer'
+
 handle 'tumblr' => 'image-downloaded' do |state, event|
   image_href = event[:body]['href']
   log "handling: #{image_href}"
@@ -22,4 +24,3 @@ handle 'tumblr' => 'image-downloaded' do |state, event|
   log "emitting image-detailed"
   emit 'tumblr', 'image-detailed', details
 end
-
