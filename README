@@ -1,4 +1,11 @@
 
+
+to run project:
+update docker-compose.yml to point to your eventstore + redis
+run `sudo ./bin/gen_images` to generate the docker images
+run `docker-compose up` to start the containers
+
+
 running
 each app should be runnable from it's directory
 each app should provide a Procfile
