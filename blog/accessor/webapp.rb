@@ -51,7 +51,7 @@ end
 get '/:image_href_encoded' do |image_href_encoded|
   image_href = Base64.urlsafe_decode64 image_href_encoded
   content_type :json
-  puts "HREF: #{image_href}"
+  puts "href: #{image_href}"
   post_href = image_to_post[image_href]
   blog_href = post_to_blog[post_href]
   { href: image_href, post: { href: post_href }, blog: { href: blog_href }}.to_json

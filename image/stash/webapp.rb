@@ -28,9 +28,9 @@ end
 
 post '/:image_name_encoded' do |image_name_encoded|
   file_path = File.join WRITE_DIR, image_name_encoded
-  puts "FILEPATH: #{file_path}"
+  puts "filepath: #{file_path}"
   File.write file_path, params['data'][:tempfile].read
-  puts "WROTE: #{file_path}"
+  puts "wrote: #{file_path}"
   content_type :text
   image_name_encoded
 end
