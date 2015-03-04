@@ -1,9 +1,9 @@
 
 ImageStash:
   environment: &3
-    EVENTSTORE_URL: http://10.0.0.20:2113/
+    EVENTSTORE_URL: http://10.0.0.9:2113/
     URLS_FILE_URL: https://gist.githubusercontent.com/rranshous/30056e2109f43e74d79f/raw/
-    REDIS_URL: redis://10.0.0.20:6379/0
+    REDIS_URL: redis://10.0.0.9:6379/0
     HTTP_POOL_SIZE: 4
     WRITE_DIR: /data
   image: image_stash-web

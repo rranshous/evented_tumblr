@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/rranshous/streamworker.git
-  revision: cf69e312381e3f69d43be04c82b1ef0517fbf050
+  revision: cd6214c2434d4a667aaa010192d1c4afc375075d
   specs:
-    streamworker (0.0.9)
+    streamworker (0.0.10)
       eventstore (~> 0.1.2)
       redis-namespace (~> 1.5.1)
 
