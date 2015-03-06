@@ -5,8 +5,13 @@ name 'image-finder'
 handle 'tumblr' => 'new-post-observed' do |state, event|
   post_href = event[:body]["href"]
   log "handling: #{post_href}"
-  response = HTTParty.get("#{post_href}/xml",
-                          headers: {'Accept'=>'application/xml'})
+  begin
+    response = HTTParty.get("#{post_href}/xml",
+                            headers: {'Accept'=>'application/xml'})
+  rescue SocketError => ex
+    log "Exception getting post data, redoing: #{ex}"
+    redo
+  end
   post_data = response.parsed_response
   unless post_data.is_a? Hash
     log "could not understand data, skipping: #{post_href}/xml"
